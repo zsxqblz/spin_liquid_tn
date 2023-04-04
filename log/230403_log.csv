@@ -1,0 +1,10 @@
+id, ncycle, nex, nsim, comments
+1, 50, 2, 10000, twoSqVertex
+2, 50, 2, 10000, oneSqVertex
+3, 100, 2, 10000, fourSqVertex
+
+id, dx, dy ncycle, nex, nsim, comments
+4, 1, 1, 50, 2, 1000, SqVertex
+5, 2, 1, 50, 2, 1000, SqVertex
+6, 1, 2, 50, 2, 1000, SqVertex
+7, 2, 2, 100, 2, 1000, SqVertex
