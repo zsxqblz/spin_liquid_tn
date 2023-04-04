@@ -5,15 +5,15 @@ ITensors.disable_warn_order()
 
 let
     run(`clear`)
-    dx = 3
+    dx = 2
     dy = 3
     ncycle = 100
     nex = 2
-    nsim = 100
+    nsim = 1000
     ncycle_arr = collect(1:ncycle)
-    exit_cycle_arr = expSqVertex(ncycle,nex,dx,dy,nsim,true)
+    exit_cycle_arr = runFixedSizeExp(simThreeKagome,ncycle,nex,nsim,true)
     
-    save_idx = 8
+    save_idx = 16
     save1DData(ncycle_arr,exit_cycle_arr,string("data/230403/230403_",save_idx,".csv"))
 end
 
