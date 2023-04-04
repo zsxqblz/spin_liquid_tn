@@ -10,11 +10,6 @@ const nex = parse(Int64,ARGS[4])
 const nsim = parse(Int64,ARGS[5])
 const file_name = ARGS[6]
 
-# dx = 3
-# dy = 3
-# ncycle = 100
-# nex = 2
-# nsim = 1000
 ncycle_arr = collect(1:ncycle)
 exit_cycle_arr = expSqVertex(ncycle,nex,dx,dy,nsim,true)
 

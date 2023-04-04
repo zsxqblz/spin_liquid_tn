@@ -10,4 +10,4 @@
 #SBATCH --array=0-99
 #SBATCH --mail-user=yz4281@princeton.edu
 
-julia run_exp.jl 3 3 500 2 100 data/230403/230403_d1_$SLURM_ARRAY_TASK_ID
+julia run_var_exp.jl 3 3 500 2 100 data/230403/230403_d1_$SLURM_ARRAY_TASK_ID
