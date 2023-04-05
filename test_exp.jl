@@ -5,16 +5,17 @@ ITensors.disable_warn_order()
 
 let
     run(`clear`)
-    dx = 2
-    dy = 3
-    ncycle = 10
+    dx = 1
+    dy = 1
+    ncycle = 100
     nex = 2
-    nsim = 100
+    nsim = 1000
     ncycle_arr = collect(1:ncycle)
-    exit_cycle_arr = runFixedSizeExp(simFourKagome,ncycle,nex,nsim,true)
+    exit_cycle_arr = runFixedSizeExp(simTwoKagome,ncycle,nex,nsim,true)
+    # exit_cycle_arr = expSqVertex(ncycle,dx,dy,nex,nsim,true)
     
-    save_idx = 17
-    save1DData(ncycle_arr,exit_cycle_arr,string("data/230403/230403_",save_idx,".csv"))
+    save_idx = 4
+    save1DData(ncycle_arr,exit_cycle_arr,string("data/230405/230405_",save_idx,".csv"))
 end
 
 let 
@@ -36,4 +37,8 @@ let
     # @show inds
     @show inds_arr
     # @show inds[5],inds[6],inds[8],inds[9]
+end
+
+let 
+    get_sites(1,1,1,1)
 end

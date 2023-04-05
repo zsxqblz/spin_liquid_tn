@@ -162,19 +162,119 @@ function simSqVertex(ncycle::Int64,nex::Int64,dx::Int64,dy::Int64)
     return false, -1
 end
 
+function simOneSqEdge(ncycle::Int64,nex::Int64)
+    inds,s = genPlusState(4)
+    inds1 = [inds[1],inds[2],inds[3],inds[4]]
+    inds_arr = [inds1]
+    si = s
+    for i = 1:ncycle
+        error_flag = [false]
+        for j = 1:1
+            sp = appSqCProjN(inds_arr[j],nex,si)
+            prob = rand()
+            if prob < real((sp*dag(sp))[1])
+                si = normalizeState(sp)
+                error_flag[j] = true
+            else
+                sp = appSqProjN(inds_arr[j],nex,si)
+                si = normalizeState(sp)
+            end
+        end
+
+        if !(error_flag[1])
+            return true, i
+        end
+
+        hadamard_flags = zeros(Bool,4)
+        if error_flag[1]
+            hadamard_flags[1] = true
+            hadamard_flags[2] = true
+            hadamard_flags[3] = true
+            hadamard_flags[4] = true
+        end
+        for (j,hadamard_flag) in enumerate(hadamard_flags)
+            if hadamard_flag
+                si = appHadamard(inds[j:j],si)
+            end
+        end
+    end
+    return false, -1
+end
+
+function simTwoSqEdge(ncycle::Int64,nex::Int64)
+    inds,s = genPlusState(4)
+    inds1 = [inds[1],inds[2],inds[3],inds[4]]
+    inds2 = [inds[4],inds[5],inds[6],inds[7]]
+    inds3 = [inds[2],inds[8],inds[9],inds[10]]
+    inds2 = [inds[5],inds[10],inds[11],inds[12]]
+    inds_arr = [inds1,inds2,inds3,inds4]
+    si = s
+    for i = 1:ncycle
+        error_flag = [false]
+        for j = 1:1
+            sp = appSqCProjN(inds_arr[j],nex,si)
+            prob = rand()
+            if prob < real((sp*dag(sp))[1])
+                si = normalizeState(sp)
+                error_flag[j] = true
+            else
+                sp = appSqProjN(inds_arr[j],nex,si)
+                si = normalizeState(sp)
+            end
+        end
+
+        if !(error_flag[1]|error_flag[2]|error_flag[3]|error_flag[4])
+            return true, i
+        end
+
+        hadamard_flags = zeros(Bool,4)
+        if error_flag[1]
+            hadamard_flags[1] = true
+            hadamard_flags[2] = true
+            hadamard_flags[3] = true
+            hadamard_flags[4] = true
+        end
+        if error_flag[2]
+            hadamard_flags[4] = true
+            hadamard_flags[5] = true
+            hadamard_flags[6] = true
+            hadamard_flags[7] = true
+        end
+        if error_flag[3]
+            hadamard_flags[2] = true
+            hadamard_flags[8] = true
+            hadamard_flags[9] = true
+            hadamard_flags[10] = true
+        end
+        if error_flag[4]
+            hadamard_flags[5] = true
+            hadamard_flags[10] = true
+            hadamard_flags[11] = true
+            hadamard_flags[12] = true
+        end
+
+        for (j,hadamard_flag) in enumerate(hadamard_flags)
+            if hadamard_flag
+                si = appHadamard(inds[j:j],si)
+            end
+        end
+    end
+    return false, -1
+end
+
 function simOneKagome(ncycle::Int64,nex::Int64)
     inds,s = genPlusState(6)
     for i = 1:ncycle
         prob1 = rand()
-        s1 = appSqCProjN(inds[1:6],nex,s)
+        s1 = appHexCProjN(inds[1:6],nex,s)
         if prob1 < real((s1*dag(s1))[1]) 
             s = appHadamard(inds[1:6],s1)
         else
-            return true, i
+            return true, i, s
         end
         s = normalizeState(s)
     end
-    return false, -1
+    return false, -1, s
 end
 
 function simTwoKagome(ncycle::Int64,nex::Int64)
@@ -186,19 +286,19 @@ function simTwoKagome(ncycle::Int64,nex::Int64)
     for i = 1:ncycle
         error_flag = [false,false]
         for j = 1:2
-            sp = appSqCProjN(inds_arr[:,j],nex,si)
+            sp = appHexCProjN(inds_arr[:,j],nex,si)
             prob = rand()
             if prob < real((sp*dag(sp))[1])
                 si = normalizeState(sp)
                 error_flag[j] = true
             else
-                sp = appSqProjN(inds_arr[:,j],nex,si)
+                sp = appHexProjN(inds_arr[:,j],nex,si)
                 si = normalizeState(sp)
             end
         end
 
         if !(error_flag[1] | error_flag[2])
-            return true, i
+            return true, i, s
         end
 
         hadamard_flags = zeros(Bool,11)
@@ -225,7 +325,7 @@ function simTwoKagome(ncycle::Int64,nex::Int64)
             end
         end
     end
-    return false, -1
+    return false, -1, s
 end
 
 function simThreeKagome(ncycle::Int64,nex::Int64)
@@ -238,19 +338,19 @@ function simThreeKagome(ncycle::Int64,nex::Int64)
     for i = 1:ncycle
         error_flag = [false,false,false]
         for j = 1:3
-            sp = appSqCProjN(inds_arr[:,j],nex,si)
+            sp = appHexCProjN(inds_arr[:,j],nex,si)
             prob = rand()
             if prob < real((sp*dag(sp))[1])
                 si = normalizeState(sp)
                 error_flag[j] = true
             else
-                sp = appSqProjN(inds_arr[:,j],nex,si)
+                sp = appHexProjN(inds_arr[:,j],nex,si)
                 si = normalizeState(sp)
             end
         end
 
         if !(error_flag[1] | error_flag[2] | error_flag[3])
-            return true, i
+            return true, i, s
         end
 
         hadamard_flags = zeros(Bool,15)
@@ -285,7 +385,7 @@ function simThreeKagome(ncycle::Int64,nex::Int64)
             end
         end
     end
-    return false, -1
+    return false, -1, s
 end
 
 function simFourKagome(ncycle::Int64,nex::Int64)
@@ -299,19 +399,19 @@ function simFourKagome(ncycle::Int64,nex::Int64)
     for i = 1:ncycle
         error_flag = [false,false,false,false]
         for j = 1:4
-            sp = appSqCProjN(inds_arr[:,j],nex,si)
+            sp = appHexCProjN(inds_arr[:,j],nex,si)
             prob = rand()
             if prob < real((sp*dag(sp))[1])
                 si = normalizeState(sp)
                 error_flag[j] = true
             else
-                sp = appSqProjN(inds_arr[:,j],nex,si)
+                sp = appHexProjN(inds_arr[:,j],nex,si)
                 si = normalizeState(sp)
             end
         end
 
         if !(error_flag[1] | error_flag[2] | error_flag[3] | error_flag[4])
-            return true, i
+            return true, i, s
         end
 
         hadamard_flags = zeros(Bool,19)
@@ -354,7 +454,7 @@ function simFourKagome(ncycle::Int64,nex::Int64)
             end
         end
     end
-    return false, -1
+    return false, -1, s
 end
 
 function expOneSqVertex(ncycle::Int64,nex::Int64,nsim::Int64,show_prog::Bool=false)

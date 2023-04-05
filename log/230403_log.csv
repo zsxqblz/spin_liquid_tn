@@ -19,3 +19,9 @@ id, ncycle, nex, nsim, comments
 14, 100, 1, 10000, twoKagome
 15, 100, 1, 1000, threeKagome
 16, 100, 2, 1000, threeKagome
+
+id, dx, dy ncycle, nex, nsim, comments
+18, 1, 1, 100, 1, 1000, SqVertex
+19, 2, 2, 100, 1, 1000, SqVertex
+20, 3, 3, 100, 1, 1000, SqVertex
+21, 4, 4, 100, 1, 1000, SqVertex

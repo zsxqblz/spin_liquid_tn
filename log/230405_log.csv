@@ -1,0 +1,5 @@
+id, ncycle, nex, nsim, comments
+1, 10, 1, 1000, oneKagome
+2, 10, 2, 1000, oneKagome
+3, 100, 1, 1000, twoKagome
+4, 100, 2, 1000, twoKagome

@@ -186,3 +186,30 @@ function findTotSucRate(suc_rate::Vector{Float64})
     end
     return tot_suc_rate
 end
+
+function findStateSum(s::ITensor)
+    sum = 0
+    for iv in eachindval(s.inds)
+        sum = sum + real(s[iv...])
+    end
+    return sum
+end
+
+function findStateAbsSum(s::ITensor)
+    sum = 0
+    for iv in eachindval(s.inds)
+        sum = sum + abs(s[iv...])
+    end
+    return sum
+end
+
+function get_sites(x::Int, y::Int, dx::Int, dy::Int)
+    # calculate the site numbers of the edges of the plaquette
+    site1 = (x-1)*dy + y
+    site2 = (x-1)*(dy+1) + y
+    site3 = x*(dy+1) + y
+    site4 = x*dy + y
+    
+    # return the site numbers
+    return site1, site2, site3, site4
+end
